@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/doctor_ui_model.dart';
+import '../models/time_slot_ui_model.dart';
+import 'book_appointment_state.dart';
+
+class BookAppointmentCubit extends Cubit<BookAppointmentState> {
+  BookAppointmentCubit() : super(const BookAppointmentState());
+
+  static const specialties = ['قلبية', 'جلدية', 'عظمية', 'أطفال'];
+  static const hospitals = [
+    'مشفى دمشق الجامعي',
+    'مشفى المواساة',
+    'مشفى الأسد الجامعي',
+  ];
+  static const visitTypes = ['كشف جديد', 'متابعة', 'استشارة'];
+
+  static const doctors = [
+    DoctorUiModel(
+      id: 'd1',
+      name: 'د. أحمد خالد',
+      specialty: 'قلبية',
+      hospital: 'مشفى دمشق الجامعي',
+      rating: 4.8,
+      experience: '12 سنة خبرة',
+      earliestAvailable: 'غداً 10:30 صباحاً',
+      icon: Icons.monitor_heart_rounded,
+    ),
+    DoctorUiModel(
+      id: 'd2',
+      name: 'د. رانيا يوسف',
+      specialty: 'جلدية',
+      hospital: 'مشفى المواساة',
+      rating: 4.7,
+      experience: '9 سنوات خبرة',
+      earliestAvailable: 'الأحد 09:00 صباحاً',
+      icon: Icons.health_and_safety_rounded,
+    ),
+    DoctorUiModel(
+      id: 'd3',
+      name: 'د. سامر علي',
+      specialty: 'عظمية',
+      hospital: 'مشفى الأسد الجامعي',
+      rating: 4.6,
+      experience: '10 سنوات خبرة',
+      earliestAvailable: 'الخميس 01:00 مساءً',
+      icon: Icons.accessibility_new_rounded,
+    ),
+    DoctorUiModel(
+      id: 'd4',
+      name: 'د. ليلى حسن',
+      specialty: 'أطفال',
+      hospital: 'مشفى دمشق الجامعي',
+      rating: 4.9,
+      experience: '14 سنة خبرة',
+      earliestAvailable: 'الإثنين 11:15 صباحاً',
+      icon: Icons.child_care_rounded,
+    ),
+  ];
+
+  static const timeSlots = [
+    TimeSlotUiModel(label: '09:00', period: 'صباحاً'),
+    TimeSlotUiModel(label: '09:30', period: 'صباحاً'),
+    TimeSlotUiModel(label: '10:00', period: 'صباحاً', isAvailable: false),
+    TimeSlotUiModel(label: '10:30', period: 'صباحاً'),
+    TimeSlotUiModel(label: '12:30', period: 'مساءً'),
+    TimeSlotUiModel(label: '01:00', period: 'مساءً'),
+    TimeSlotUiModel(label: '01:30', period: 'مساءً'),
+    TimeSlotUiModel(label: '02:00', period: 'مساءً', isAvailable: false),
+  ];
+
+  void selectSpecialty(String specialty) {
+    emit(state.copyWith(selectedSpecialty: specialty));
+  }
+
+  void selectHospital(String hospital) {
+    emit(state.copyWith(selectedHospital: hospital));
+  }
+
+  void selectVisitType(String visitType) {
+    emit(state.copyWith(selectedVisitType: visitType));
+  }
+
+  void selectDoctor(DoctorUiModel doctor) {
+    emit(state.copyWith(selectedDoctor: doctor));
+  }
+
+  void selectDate(DateTime date) {
+    emit(state.copyWith(selectedDate: date, clearTime: true));
+  }
+
+  void selectTime(String time) {
+    emit(state.copyWith(selectedTime: time));
+  }
+}
