@@ -6,10 +6,62 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_text_field.dart';
 
 class RegisterProfileInfoForm extends StatelessWidget {
-  const RegisterProfileInfoForm({super.key});
+  const RegisterProfileInfoForm({
+    super.key,
+    this.isDoctorRegistration = false,
+  });
+
+  final bool isDoctorRegistration;
 
   @override
   Widget build(BuildContext context) {
+    if (isDoctorRegistration) {
+      return Column(
+        children: [
+          const AppTextField(
+            label: 'الرقم الطبي أو رقم الترخيص',
+            prefixIcon:
+                Icon(Icons.badge_outlined, color: AppColors.primary),
+            textInputAction: TextInputAction.next,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          DropdownButtonFormField<String>(
+            decoration:
+                _inputDecoration('الاختصاص', Icons.medical_services_rounded),
+            items: const [
+              DropdownMenuItem(value: 'cardiology', child: Text('قلبية')),
+              DropdownMenuItem(value: 'dermatology', child: Text('جلدية')),
+              DropdownMenuItem(value: 'orthopedics', child: Text('عظمية')),
+              DropdownMenuItem(value: 'pediatrics', child: Text('أطفال')),
+            ],
+            onChanged: (_) {},
+          ),
+          const SizedBox(height: AppSpacing.md),
+          const AppTextField(
+            label: 'سنوات الخبرة',
+            prefixIcon:
+                Icon(Icons.work_history_outlined, color: AppColors.primary),
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          DropdownButtonFormField<String>(
+            decoration:
+                _inputDecoration('المشفى المرتبط', Icons.local_hospital_rounded),
+            items: const [
+              DropdownMenuItem(
+                value: 'damascus',
+                child: Text('مشفى دمشق الجامعي'),
+              ),
+              DropdownMenuItem(value: 'mouwasat', child: Text('مشفى المواساة')),
+              DropdownMenuItem(value: 'assad', child: Text('مشفى الأسد الجامعي')),
+            ],
+            onChanged: (_) {},
+          ),
+        ],
+      );
+    }
+
     return Column(
       children: [
         DropdownButtonFormField<String>(

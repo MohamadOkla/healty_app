@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_routes.dart';
 import '../../../../core/widgets/app_loading_indicator.dart';
 import '../animations/splash_animation_wrapper.dart';
 import '../cubit/splash_cubit.dart';
@@ -21,7 +20,7 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is SplashCompleted) {
-            context.go(AppRoutes.onboarding);
+            context.go(state.targetRoute);
           }
         },
         child: const SplashBackground(

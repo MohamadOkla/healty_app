@@ -12,5 +12,10 @@ final class SplashInitial extends SplashState {
 }
 
 final class SplashCompleted extends SplashState {
-  const SplashCompleted();
+  const SplashCompleted(this.targetRoute);
+
+  final String targetRoute;
+
+  @override
+  List<Object?> get props => [targetRoute];
 }

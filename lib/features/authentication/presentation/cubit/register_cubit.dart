@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/user_role_helper.dart';
 import 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit() : super(const RegisterState());
+  RegisterCubit({String? selectedRole})
+      : super(RegisterState(selectedRole: UserRoleHelper.normalize(selectedRole)));
 
   void nextStep() {
     if (!state.isLastStep) {

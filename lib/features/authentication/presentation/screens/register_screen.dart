@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/constants/storage_keys.dart';
+import '../../../../core/services/local_storage_service.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/user_role_helper.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/register_cubit.dart';
 import '../cubit/register_state.dart';
@@ -18,12 +21,14 @@ import '../widgets/register_profile_info_form.dart';
 import '../widgets/register_step_indicator.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  const RegisterScreen({super.key, this.selectedRole});
+
+  final String? selectedRole;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RegisterCubit(),
+      create: (_) => RegisterCubit(selectedRole: selectedRole),
       child: const LoginBackground(child: _RegisterContent()),
     );
   }
@@ -50,7 +55,7 @@ class _RegisterContentState extends State<_RegisterContent> {
                 title: 'إنشاء حساب',
                 onBackPressed: () {
                   if (state.isFirstStep) {
-                    context.go('${AppRoutes.login}?role=patient');
+                    context.go(UserRoleHelper.loginRouteFor(state.selectedRole));
                     return;
                   }
                   context.read<RegisterCubit>().previousStep();
@@ -72,12 +77,16 @@ class _RegisterContentState extends State<_RegisterContent> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'إنشاء حساب مريض',
+                              state.isDoctorRegistration
+                                  ? 'إنشاء حساب طبيب'
+                                  : 'إنشاء حساب مريض',
                               style: AppTextStyles.headlineLarge,
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             Text(
-                              'أكمل البيانات التالية لإنشاء حسابك داخل المنظومة.',
+                              state.isDoctorRegistration
+                                  ? 'أكمل بياناتك المهنية ليتم إنشاء الحساب ومراجعته من الإدارة.'
+                                  : 'أكمل البيانات التالية لإنشاء حسابك داخل المنظومة.',
                               style: AppTextStyles.bodyMedium,
                             ),
                             const SizedBox(height: AppSpacing.lg),
@@ -86,6 +95,8 @@ class _RegisterContentState extends State<_RegisterContent> {
                             const SizedBox(height: AppSpacing.xl),
                             _RegisterStepBody(
                               step: state.currentStep,
+                              isDoctorRegistration:
+                                  state.isDoctorRegistration,
                               password: _password,
                               onPasswordChanged: (value) =>
                                   setState(() => _password = value),
@@ -116,9 +127,26 @@ class _RegisterContentState extends State<_RegisterContent> {
                                         await context
                                             .read<RegisterCubit>()
                                             .submit();
+                                        await LocalStorageService.instance
+                                            .setString(
+                                          StorageKeys.selectedRole,
+                                          state.selectedRole,
+                                        );
+                                        await LocalStorageService.instance
+                                            .setString(
+                                          StorageKeys.currentUserRole,
+                                          state.selectedRole,
+                                        );
+                                        await LocalStorageService.instance
+                                            .setString(
+                                          StorageKeys.lastRoute,
+                                          AppRoutes.otp,
+                                        );
                                         if (context.mounted) {
                                           context.go(
-                                            '${AppRoutes.otp}?purpose=register',
+                                            UserRoleHelper.otpRouteForRegister(
+                                              state.selectedRole,
+                                            ),
                                           );
                                         }
                                         return;
@@ -147,11 +175,13 @@ class _RegisterContentState extends State<_RegisterContent> {
 class _RegisterStepBody extends StatelessWidget {
   const _RegisterStepBody({
     required this.step,
+    required this.isDoctorRegistration,
     required this.password,
     required this.onPasswordChanged,
   });
 
   final int step;
+  final bool isDoctorRegistration;
   final String password;
   final ValueChanged<String> onPasswordChanged;
 
@@ -161,7 +191,10 @@ class _RegisterStepBody extends StatelessWidget {
       duration: const Duration(milliseconds: 240),
       child: switch (step) {
         0 => const RegisterPersonalInfoForm(key: ValueKey('personal')),
-        1 => const RegisterProfileInfoForm(key: ValueKey('profile')),
+        1 => RegisterProfileInfoForm(
+            key: const ValueKey('profile'),
+            isDoctorRegistration: isDoctorRegistration,
+          ),
         _ => RegisterCredentialsForm(
             key: const ValueKey('credentials'),
             password: password,

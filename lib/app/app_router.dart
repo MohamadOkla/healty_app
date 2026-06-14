@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/constants/app_colors.dart';
 import '../core/constants/app_routes.dart';
+import '../core/constants/storage_keys.dart';
+import '../core/services/local_storage_service.dart';
+import '../core/theme/app_radius.dart';
+import '../core/theme/app_spacing.dart';
+import '../core/theme/app_text_styles.dart';
+import '../core/utils/user_role_helper.dart';
+import '../core/widgets/app_button.dart';
 import '../features/appointments/presentation/cubit/book_appointment_cubit.dart';
 import '../features/appointments/presentation/cubit/book_appointment_state.dart';
 import '../features/appointments/presentation/screens/appointment_details_screen.dart';
@@ -57,7 +65,11 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.register,
         name: AppRoutes.registerName,
-        builder: (context, state) => const RegisterScreen(),
+        builder: (context, state) {
+          final role = state.uri.queryParameters['role'] ??
+              LocalStorageService.instance.getString(StorageKeys.selectedRole);
+          return RegisterScreen(selectedRole: role);
+        },
       ),
       GoRoute(
         path: AppRoutes.forgotPassword,
@@ -70,6 +82,7 @@ abstract final class AppRouter {
         builder: (context, state) {
           return OtpVerificationScreen(
             purpose: state.uri.queryParameters['purpose'] ?? 'reset',
+            selectedRole: state.uri.queryParameters['role'],
           );
         },
       ),
@@ -81,7 +94,11 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.accountCreated,
         name: AppRoutes.accountCreatedName,
-        builder: (context, state) => const AccountCreatedScreen(),
+        builder: (context, state) {
+          return AccountCreatedScreen(
+            selectedRole: state.uri.queryParameters['role'],
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.passwordChanged,
@@ -157,49 +174,77 @@ abstract final class AppRouter {
         name: AppRoutes.patientMedicalRecordsName,
         builder: (context, state) => const PatientPlaceholderScreen(
           title: 'السجل الطبي',
+          description: 'ستتمكن قريباً من متابعة الزيارات والتشخيصات والملفات الطبية.',
+          icon: Icons.assignment_rounded,
           selectedIndex: 0,
         ),
       ),
       GoRoute(
         path: AppRoutes.patientPrescriptions,
         name: AppRoutes.patientPrescriptionsName,
-        builder: (context, state) =>
-            const PatientPlaceholderScreen(title: 'الوصفات', selectedIndex: 0),
+        builder: (context, state) => const PatientPlaceholderScreen(
+          title: 'الوصفات',
+          description: 'ستظهر هنا الوصفات النشطة والسابقة مع تعليمات الاستخدام.',
+          icon: Icons.medication_rounded,
+          selectedIndex: 0,
+        ),
       ),
       GoRoute(
         path: AppRoutes.patientLaboratory,
         name: AppRoutes.patientLaboratoryName,
-        builder: (context, state) =>
-            const PatientPlaceholderScreen(title: 'التحاليل', selectedIndex: 0),
+        builder: (context, state) => const PatientPlaceholderScreen(
+          title: 'التحاليل',
+          description: 'سيتم عرض نتائج التحاليل المخبرية ومؤشرات الحالة هنا.',
+          icon: Icons.science_rounded,
+          selectedIndex: 0,
+        ),
       ),
       GoRoute(
         path: AppRoutes.patientNotifications,
         name: AppRoutes.patientNotificationsName,
         builder: (context, state) => const PatientPlaceholderScreen(
           title: 'الإشعارات',
+          description: 'تنبيهات المواعيد والنتائج والتحديثات المهمة ستظهر هنا.',
+          icon: Icons.notifications_rounded,
           selectedIndex: 3,
         ),
       ),
       GoRoute(
         path: AppRoutes.patientProfile,
         name: AppRoutes.patientProfileName,
-        builder: (context, state) =>
-            const PatientPlaceholderScreen(title: 'حسابي', selectedIndex: 4),
+        builder: (context, state) => const PatientPlaceholderScreen(
+          title: 'حسابي',
+          description: 'إدارة بيانات الحساب والإعدادات الصحية ستكون متاحة هنا.',
+          icon: Icons.person_rounded,
+          selectedIndex: 4,
+        ),
       ),
       GoRoute(
         path: AppRoutes.doctor,
         name: AppRoutes.doctorName,
-        redirect: _redirectToOnboarding,
+        builder: (context, state) => const RoleDashboardPlaceholderScreen(
+          title: 'لوحة الطبيب',
+          description: 'سيتم تجهيز لوحة الطبيب في مرحلة لاحقة.',
+          icon: Icons.medical_services_rounded,
+        ),
       ),
       GoRoute(
         path: AppRoutes.hospitalAdmin,
         name: AppRoutes.hospitalAdminName,
-        redirect: _redirectToOnboarding,
+        builder: (context, state) => const RoleDashboardPlaceholderScreen(
+          title: 'لوحة مدير المشفى',
+          description: 'سيتم تجهيز إدارة المشفى في مرحلة لاحقة.',
+          icon: Icons.local_hospital_rounded,
+        ),
       ),
       GoRoute(
         path: AppRoutes.ministryAdmin,
         name: AppRoutes.ministryAdminName,
-        redirect: _redirectToOnboarding,
+        builder: (context, state) => const RoleDashboardPlaceholderScreen(
+          title: 'لوحة وزارة الصحة',
+          description: 'سيتم تجهيز مؤشرات الوزارة والتقارير في مرحلة لاحقة.',
+          icon: Icons.account_balance_rounded,
+        ),
       ),
       GoRoute(
         path: AppRoutes.appointments,

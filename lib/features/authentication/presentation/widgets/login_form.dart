@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/constants/storage_keys.dart';
+import '../../../../core/services/local_storage_service.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/user_role_helper.dart';
 import '../cubit/login_cubit.dart';
 import 'email_field.dart';
 import 'forgot_password_button.dart';
@@ -85,9 +88,28 @@ class _LoginFormState extends State<LoginForm>
 
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<LoginCubit>().submit().then((_) {
+      final role = UserRoleHelper.normalize(widget.selectedRole);
+      context.read<LoginCubit>().submit().then((_) async {
         if (mounted) {
-          context.go(AppRoutes.patientDashboard);
+          final targetRoute = UserRoleHelper.dashboardRouteFor(role);
+          await LocalStorageService.instance.setBool(
+            StorageKeys.isLoggedIn,
+            true,
+          );
+          await LocalStorageService.instance.setString(
+            StorageKeys.currentUserRole,
+            role,
+          );
+          await LocalStorageService.instance.setString(
+            StorageKeys.selectedRole,
+            role,
+          );
+          await LocalStorageService.instance.setString(
+            StorageKeys.lastRoute,
+            targetRoute,
+          );
+          if (!mounted) return;
+          context.go(targetRoute);
         }
       });
     }
@@ -154,7 +176,8 @@ class _LoginFormBody extends StatelessWidget {
                   const SocialLoginSection(),
                   const Spacer(),
                   const SizedBox(height: AppSpacing.lg),
-                  if (selectedRole == 'patient') const RegisterLink(),
+                  if (UserRoleHelper.canSelfRegister(selectedRole))
+                    RegisterLink(selectedRole: selectedRole),
                 ],
               ),
             ),
