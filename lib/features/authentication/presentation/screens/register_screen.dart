@@ -55,7 +55,8 @@ class _RegisterContentState extends State<_RegisterContent> {
                 title: 'إنشاء حساب',
                 onBackPressed: () {
                   if (state.isFirstStep) {
-                    context.go(UserRoleHelper.loginRouteFor(state.selectedRole));
+                    context
+                        .go(UserRoleHelper.loginRouteFor(state.selectedRole));
                     return;
                   }
                   context.read<RegisterCubit>().previousStep();
@@ -95,8 +96,7 @@ class _RegisterContentState extends State<_RegisterContent> {
                             const SizedBox(height: AppSpacing.xl),
                             _RegisterStepBody(
                               step: state.currentStep,
-                              isDoctorRegistration:
-                                  state.isDoctorRegistration,
+                              isDoctorRegistration: state.isDoctorRegistration,
                               password: _password,
                               onPasswordChanged: (value) =>
                                   setState(() => _password = value),

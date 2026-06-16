@@ -5,7 +5,8 @@ import 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit({String? selectedRole})
-      : super(RegisterState(selectedRole: UserRoleHelper.normalize(selectedRole)));
+      : super(RegisterState(
+            selectedRole: UserRoleHelper.normalize(selectedRole)));
 
   void nextStep() {
     if (!state.isLastStep) {

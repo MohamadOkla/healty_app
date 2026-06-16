@@ -20,8 +20,7 @@ class RegisterProfileInfoForm extends StatelessWidget {
         children: [
           const AppTextField(
             label: 'الرقم الطبي أو رقم الترخيص',
-            prefixIcon:
-                Icon(Icons.badge_outlined, color: AppColors.primary),
+            prefixIcon: Icon(Icons.badge_outlined, color: AppColors.primary),
             textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: AppSpacing.md),
@@ -46,15 +45,16 @@ class RegisterProfileInfoForm extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           DropdownButtonFormField<String>(
-            decoration:
-                _inputDecoration('المشفى المرتبط', Icons.local_hospital_rounded),
+            decoration: _inputDecoration(
+                'المشفى المرتبط', Icons.local_hospital_rounded),
             items: const [
               DropdownMenuItem(
                 value: 'damascus',
                 child: Text('مشفى دمشق الجامعي'),
               ),
               DropdownMenuItem(value: 'mouwasat', child: Text('مشفى المواساة')),
-              DropdownMenuItem(value: 'assad', child: Text('مشفى الأسد الجامعي')),
+              DropdownMenuItem(
+                  value: 'assad', child: Text('مشفى الأسد الجامعي')),
             ],
             onChanged: (_) {},
           ),

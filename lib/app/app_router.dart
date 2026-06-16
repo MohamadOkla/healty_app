@@ -8,7 +8,6 @@ import '../core/services/local_storage_service.dart';
 import '../core/theme/app_radius.dart';
 import '../core/theme/app_spacing.dart';
 import '../core/theme/app_text_styles.dart';
-import '../core/utils/user_role_helper.dart';
 import '../core/widgets/app_button.dart';
 import '../features/appointments/presentation/cubit/book_appointment_cubit.dart';
 import '../features/appointments/presentation/cubit/book_appointment_state.dart';
@@ -174,7 +173,8 @@ abstract final class AppRouter {
         name: AppRoutes.patientMedicalRecordsName,
         builder: (context, state) => const PatientPlaceholderScreen(
           title: 'السجل الطبي',
-          description: 'ستتمكن قريباً من متابعة الزيارات والتشخيصات والملفات الطبية.',
+          description:
+              'ستتمكن قريباً من متابعة الزيارات والتشخيصات والملفات الطبية.',
           icon: Icons.assignment_rounded,
           selectedIndex: 0,
         ),
@@ -184,7 +184,8 @@ abstract final class AppRouter {
         name: AppRoutes.patientPrescriptionsName,
         builder: (context, state) => const PatientPlaceholderScreen(
           title: 'الوصفات',
-          description: 'ستظهر هنا الوصفات النشطة والسابقة مع تعليمات الاستخدام.',
+          description:
+              'ستظهر هنا الوصفات النشطة والسابقة مع تعليمات الاستخدام.',
           icon: Icons.medication_rounded,
           selectedIndex: 0,
         ),
@@ -310,10 +311,14 @@ class PatientPlaceholderScreen extends StatelessWidget {
   const PatientPlaceholderScreen({
     super.key,
     required this.title,
+    required this.description,
+    required this.icon,
     required this.selectedIndex,
   });
 
   final String title;
+  final String description;
+  final IconData icon;
   final int selectedIndex;
 
   @override
@@ -327,9 +332,137 @@ class PatientPlaceholderScreen extends StatelessWidget {
         ),
         title: Text(title),
       ),
-      body: Center(child: Text(title)),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 520),
+            child: Container(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.10),
+                    blurRadius: 24,
+                    offset: const Offset(0, 14),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 34,
+                    backgroundColor: AppColors.primary.withValues(alpha: 0.10),
+                    child: Icon(icon, color: AppColors.primary, size: 34),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.headlineLarge,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.bodyMedium,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  AppButton(
+                    text: 'العودة للرئيسية',
+                    icon: Icons.home_rounded,
+                    onPressed: () => context.go(AppRoutes.patientDashboard),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar:
           PatientBottomNavigation(selectedIndex: selectedIndex),
+    );
+  }
+}
+
+class RoleDashboardPlaceholderScreen extends StatelessWidget {
+  const RoleDashboardPlaceholderScreen({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
+
+  final String title;
+  final String description;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        leading: IconButton(
+          tooltip: 'رجوع',
+          onPressed: () => context.go(AppRoutes.roleSelection),
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        title: Text(title),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 520),
+            child: Container(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.10),
+                    blurRadius: 24,
+                    offset: const Offset(0, 14),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 34,
+                    backgroundColor:
+                        AppColors.secondary.withValues(alpha: 0.14),
+                    child: Icon(icon, color: AppColors.primary, size: 34),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.headlineLarge,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.bodyMedium,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  AppButton(
+                    text: 'اختيار دور آخر',
+                    icon: Icons.switch_account_rounded,
+                    onPressed: () => context.go(AppRoutes.roleSelection),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

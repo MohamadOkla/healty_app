@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/constants/storage_keys.dart';
+import '../../../../core/services/local_storage_service.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/user_role_helper.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/otp_cubit.dart';
 import '../cubit/otp_state.dart';
@@ -16,25 +19,31 @@ import '../widgets/otp_input.dart';
 import '../widgets/resend_code_button.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
-  const OtpVerificationScreen({super.key, required this.purpose});
+  const OtpVerificationScreen({
+    super.key,
+    required this.purpose,
+    this.selectedRole,
+  });
 
   final String purpose;
+  final String? selectedRole;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => OtpCubit(),
       child: LoginBackground(
-        child: _OtpContent(purpose: purpose),
+        child: _OtpContent(purpose: purpose, selectedRole: selectedRole),
       ),
     );
   }
 }
 
 class _OtpContent extends StatelessWidget {
-  const _OtpContent({required this.purpose});
+  const _OtpContent({required this.purpose, this.selectedRole});
 
   final String purpose;
+  final String? selectedRole;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +55,7 @@ class _OtpContent extends StatelessWidget {
             onBackPressed: () {
               context.go(
                 purpose == 'register'
-                    ? AppRoutes.register
+                    ? UserRoleHelper.registerRouteFor(selectedRole)
                     : AppRoutes.forgotPassword,
               );
             },
@@ -93,10 +102,18 @@ class _OtpContent extends StatelessWidget {
                               onPressed: state.isComplete
                                   ? () async {
                                       await context.read<OtpCubit>().verify();
+                                      await LocalStorageService.instance
+                                          .setBool(
+                                        StorageKeys.otpVerified,
+                                        true,
+                                      );
                                       if (!context.mounted) return;
                                       context.go(
                                         purpose == 'register'
-                                            ? AppRoutes.accountCreated
+                                            ? UserRoleHelper
+                                                .accountCreatedRouteFor(
+                                                selectedRole,
+                                              )
                                             : AppRoutes.resetPassword,
                                       );
                                     }
