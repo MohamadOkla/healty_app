@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_routes.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_shadows.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -59,7 +61,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
           AppButton(
             text: 'عرض التفاصيل',
             isOutlined: true,
-            onPressed: () {},
+            onPressed: () => context.go(AppRoutes.patientAppointmentDetails),
           ),
         ],
       ),

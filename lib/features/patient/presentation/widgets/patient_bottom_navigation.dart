@@ -52,7 +52,7 @@ class PatientBottomNavigation extends StatelessWidget {
             final routes = [
               AppRoutes.patientDashboard,
               AppRoutes.patientAppointments,
-              AppRoutes.patientAppointments,
+              AppRoutes.patientBookAppointment,
               AppRoutes.patientNotifications,
               AppRoutes.patientProfile,
             ];

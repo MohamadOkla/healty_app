@@ -144,7 +144,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
           AppButton(
             text: 'تعديل الموعد',
             icon: Icons.edit_calendar_rounded,
-            onPressed: () {},
+            onPressed: () => context.go(AppRoutes.patientBookAppointment),
           ),
           const SizedBox(height: AppSpacing.sm),
           AppButton(

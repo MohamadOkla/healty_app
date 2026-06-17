@@ -43,12 +43,12 @@ class _MyAppointmentsView extends StatelessWidget {
         actions: [
           IconButton(
             tooltip: 'بحث',
-            onPressed: () {},
+            onPressed: () => _showAppointmentSearch(context),
             icon: const Icon(Icons.search_rounded),
           ),
           IconButton(
             tooltip: 'تصفية',
-            onPressed: () {},
+            onPressed: () => _showAppointmentFilter(context),
             icon: const Icon(Icons.tune_rounded),
           ),
         ],
@@ -98,6 +98,56 @@ class _MyAppointmentsView extends StatelessWidget {
         label: const Text('حجز موعد جديد'),
       ),
       bottomNavigationBar: const PatientBottomNavigation(selectedIndex: 1),
+    );
+  }
+
+  void _showAppointmentSearch(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('بحث المواعيد'),
+        content: const Text('يمكن البحث حالياً ضمن بيانات المواعيد التجريبية.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('تم'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAppointmentFilter(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('تصفية المواعيد'),
+              const SizedBox(height: AppSpacing.md),
+              ListTile(
+                leading: const Icon(Icons.event_available_rounded),
+                title: const Text('المواعيد القادمة'),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.history_rounded),
+                title: const Text('المواعيد السابقة'),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.cancel_rounded),
+                title: const Text('المواعيد الملغاة'),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

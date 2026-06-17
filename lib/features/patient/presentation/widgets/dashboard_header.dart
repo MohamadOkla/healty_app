@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_routes.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -13,10 +15,14 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 26,
-          backgroundColor: AppColors.secondary.withValues(alpha: 0.18),
-          child: const Icon(Icons.person_rounded, color: AppColors.primary),
+        InkWell(
+          onTap: () => context.go(AppRoutes.patientProfile),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          child: CircleAvatar(
+            radius: 26,
+            backgroundColor: AppColors.secondary.withValues(alpha: 0.18),
+            child: const Icon(Icons.person_rounded, color: AppColors.primary),
+          ),
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
@@ -38,7 +44,7 @@ class DashboardHeader extends StatelessWidget {
             _HeaderIconButton(
               icon: Icons.notifications_none_rounded,
               semanticLabel: 'الإشعارات، 3 إشعارات جديدة',
-              onPressed: () {},
+              onPressed: () => context.go(AppRoutes.patientNotifications),
             ),
             PositionedDirectional(
               top: -3,
@@ -64,7 +70,7 @@ class DashboardHeader extends StatelessWidget {
         _HeaderIconButton(
           icon: Icons.menu_rounded,
           semanticLabel: 'القائمة',
-          onPressed: () {},
+          onPressed: () => Scaffold.maybeOf(context)?.openEndDrawer(),
         ),
       ],
     );

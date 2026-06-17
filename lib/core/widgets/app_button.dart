@@ -56,20 +56,38 @@ class AppButton extends StatelessWidget {
     final style = isOutlined
         ? OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
+            backgroundColor: Colors.transparent,
             minimumSize: const Size(0, AppSizes.buttonHeight),
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            splashFactory: NoSplash.splashFactory,
             side: const BorderSide(color: AppColors.primary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
+          ).copyWith(
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
+            shadowColor: WidgetStateProperty.all(Colors.transparent),
+            surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+            splashFactory: NoSplash.splashFactory,
           )
         : ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.white,
             minimumSize: const Size(0, AppSizes.buttonHeight),
             elevation: 0,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            splashFactory: NoSplash.splashFactory,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
+          ).copyWith(
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
+            shadowColor: WidgetStateProperty.all(Colors.transparent),
+            surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+            splashFactory: NoSplash.splashFactory,
           );
 
     final button = isOutlined

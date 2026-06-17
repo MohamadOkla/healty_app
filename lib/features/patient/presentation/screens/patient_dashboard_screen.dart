@@ -9,6 +9,7 @@ import '../cubit/patient_dashboard_state.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/health_summary_card.dart';
 import '../widgets/patient_bottom_navigation.dart';
+import '../widgets/patient_drawer.dart';
 import '../widgets/quick_actions_grid.dart';
 import '../widgets/recent_activity_section.dart';
 import '../widgets/recent_results_section.dart';
@@ -33,6 +34,7 @@ class _PatientDashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      endDrawer: const PatientDrawer(),
       bottomNavigationBar: const PatientBottomNavigation(selectedIndex: 0),
       body: SafeArea(
         child: BlocBuilder<PatientDashboardCubit, PatientDashboardState>(

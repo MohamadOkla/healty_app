@@ -25,7 +25,14 @@ import '../features/authentication/presentation/screens/password_changed_screen.
 import '../features/authentication/presentation/screens/register_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../features/patient/presentation/screens/medical_records_screen.dart';
+import '../features/patient/presentation/screens/notification_details_screen.dart';
+import '../features/patient/presentation/screens/notifications_screen.dart';
 import '../features/patient/presentation/screens/patient_dashboard_screen.dart';
+import '../features/patient/presentation/screens/patient_detail_screens.dart';
+import '../features/patient/presentation/screens/patient_info_screen.dart';
+import '../features/patient/presentation/screens/profile_screen.dart';
+import '../features/patient/presentation/screens/settings_screen.dart';
 import '../features/patient/presentation/widgets/patient_bottom_navigation.dart';
 import '../features/role_selection/presentation/screens/role_selection_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
@@ -171,53 +178,128 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.patientMedicalRecords,
         name: AppRoutes.patientMedicalRecordsName,
-        builder: (context, state) => const PatientPlaceholderScreen(
-          title: 'السجل الطبي',
-          description:
-              'ستتمكن قريباً من متابعة الزيارات والتشخيصات والملفات الطبية.',
-          icon: Icons.assignment_rounded,
-          selectedIndex: 0,
-        ),
+        builder: (context, state) => const MedicalRecordsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientMedicalRecordDetails,
+        name: AppRoutes.patientMedicalRecordDetailsName,
+        builder: (context, state) => const MedicalRecordDetailsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientPrescriptions,
         name: AppRoutes.patientPrescriptionsName,
-        builder: (context, state) => const PatientPlaceholderScreen(
-          title: 'الوصفات',
-          description:
-              'ستظهر هنا الوصفات النشطة والسابقة مع تعليمات الاستخدام.',
-          icon: Icons.medication_rounded,
-          selectedIndex: 0,
-        ),
+        builder: (context, state) => const PrescriptionsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientPrescriptionDetails,
+        name: AppRoutes.patientPrescriptionDetailsName,
+        builder: (context, state) => const PrescriptionDetailsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientLaboratory,
         name: AppRoutes.patientLaboratoryName,
-        builder: (context, state) => const PatientPlaceholderScreen(
-          title: 'التحاليل',
-          description: 'سيتم عرض نتائج التحاليل المخبرية ومؤشرات الحالة هنا.',
-          icon: Icons.science_rounded,
-          selectedIndex: 0,
-        ),
+        builder: (context, state) => const LaboratoryResultsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientLaboratoryDetails,
+        name: AppRoutes.patientLaboratoryDetailsName,
+        builder: (context, state) => const LaboratoryResultDetailsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientNotifications,
         name: AppRoutes.patientNotificationsName,
-        builder: (context, state) => const PatientPlaceholderScreen(
-          title: 'الإشعارات',
-          description: 'تنبيهات المواعيد والنتائج والتحديثات المهمة ستظهر هنا.',
-          icon: Icons.notifications_rounded,
-          selectedIndex: 3,
-        ),
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientNotificationDetails,
+        name: AppRoutes.patientNotificationDetailsName,
+        builder: (context, state) => const NotificationDetailsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientProfile,
         name: AppRoutes.patientProfileName,
-        builder: (context, state) => const PatientPlaceholderScreen(
-          title: 'حسابي',
-          description: 'إدارة بيانات الحساب والإعدادات الصحية ستكون متاحة هنا.',
-          icon: Icons.person_rounded,
-          selectedIndex: 4,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientEditProfile,
+        name: AppRoutes.patientEditProfileName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'تعديل الملف الشخصي',
+          description: 'واجهة تعديل الاسم ورقم الهاتف والبريد الإلكتروني.',
+          icon: Icons.edit_rounded,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientChangePassword,
+        name: AppRoutes.patientChangePasswordName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'تغيير كلمة المرور',
+          description: 'واجهة تغيير كلمة المرور الحالية بكلمة مرور جديدة.',
+          icon: Icons.lock_reset_rounded,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientNotificationSettings,
+        name: AppRoutes.patientNotificationSettingsName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'إعدادات الإشعارات',
+          description: 'تخصيص تنبيهات المواعيد والوصفات ونتائج التحاليل.',
+          icon: Icons.notifications_active_rounded,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientLanguage,
+        name: AppRoutes.patientLanguageName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'تغيير اللغة',
+          description: 'اختيار لغة واجهة التطبيق. العربية مفعلة حالياً.',
+          icon: Icons.language_rounded,
+          backRoute: AppRoutes.patientSettings,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientHelp,
+        name: AppRoutes.patientHelpName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'المساعدة',
+          description: 'أسئلة شائعة وإرشادات استخدام خدمات المريض الرقمية.',
+          icon: Icons.help_outline_rounded,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientAbout,
+        name: AppRoutes.patientAboutName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'حول التطبيق',
+          description:
+              'Digital Health System - منظومة رقمية لإدارة الخدمات الطبية.',
+          icon: Icons.info_outline_rounded,
+          backRoute: AppRoutes.patientSettings,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientSettings,
+        name: AppRoutes.patientSettingsName,
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientPrivacyPolicy,
+        name: AppRoutes.patientPrivacyPolicyName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'سياسة الخصوصية',
+          description: 'توضيح آلية حماية البيانات الصحية وخصوصية المستخدم.',
+          icon: Icons.privacy_tip_rounded,
+          backRoute: AppRoutes.patientSettings,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.patientTerms,
+        name: AppRoutes.patientTermsName,
+        builder: (context, state) => const PatientInfoScreen(
+          title: 'شروط الاستخدام',
+          description: 'الشروط العامة لاستخدام خدمات المنظومة الرقمية.',
+          icon: Icons.gavel_rounded,
+          backRoute: AppRoutes.patientSettings,
         ),
       ),
       GoRoute(

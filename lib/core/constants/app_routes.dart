@@ -63,17 +63,65 @@ abstract final class AppRoutes {
   static const String patientMedicalRecords = '/patient/medical-records';
   static const String patientMedicalRecordsName = 'patient-medical-records';
 
+  static const String patientMedicalRecordDetails =
+      '/patient/medical-records/details';
+  static const String patientMedicalRecordDetailsName =
+      'patient-medical-record-details';
+
   static const String patientPrescriptions = '/patient/prescriptions';
   static const String patientPrescriptionsName = 'patient-prescriptions';
+
+  static const String patientPrescriptionDetails =
+      '/patient/prescriptions/details';
+  static const String patientPrescriptionDetailsName =
+      'patient-prescription-details';
 
   static const String patientLaboratory = '/patient/laboratory';
   static const String patientLaboratoryName = 'patient-laboratory';
 
+  static const String patientLaboratoryDetails = '/patient/laboratory/details';
+  static const String patientLaboratoryDetailsName =
+      'patient-laboratory-details';
+
   static const String patientNotifications = '/patient/notifications';
   static const String patientNotificationsName = 'patient-notifications';
 
+  static const String patientNotificationDetails =
+      '/patient/notifications/details';
+  static const String patientNotificationDetailsName =
+      'patient-notification-details';
+
   static const String patientProfile = '/patient/profile';
   static const String patientProfileName = 'patient-profile';
+
+  static const String patientEditProfile = '/patient/profile/edit';
+  static const String patientEditProfileName = 'patient-edit-profile';
+
+  static const String patientChangePassword = '/patient/profile/password';
+  static const String patientChangePasswordName = 'patient-change-password';
+
+  static const String patientNotificationSettings =
+      '/patient/profile/notification-settings';
+  static const String patientNotificationSettingsName =
+      'patient-notification-settings';
+
+  static const String patientLanguage = '/patient/profile/language';
+  static const String patientLanguageName = 'patient-language';
+
+  static const String patientHelp = '/patient/profile/help';
+  static const String patientHelpName = 'patient-help';
+
+  static const String patientAbout = '/patient/profile/about';
+  static const String patientAboutName = 'patient-about';
+
+  static const String patientSettings = '/patient/settings';
+  static const String patientSettingsName = 'patient-settings';
+
+  static const String patientPrivacyPolicy = '/patient/settings/privacy-policy';
+  static const String patientPrivacyPolicyName = 'patient-privacy-policy';
+
+  static const String patientTerms = '/patient/settings/terms';
+  static const String patientTermsName = 'patient-terms';
 
   static const String doctor = '/doctor';
   static const String doctorName = 'doctor';
