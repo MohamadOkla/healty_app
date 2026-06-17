@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/constants/app_colors.dart';
@@ -25,12 +26,20 @@ import '../features/authentication/presentation/screens/password_changed_screen.
 import '../features/authentication/presentation/screens/register_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../features/patient/presentation/cubit/profile_cubit.dart';
 import '../features/patient/presentation/screens/medical_records_screen.dart';
 import '../features/patient/presentation/screens/notification_details_screen.dart';
 import '../features/patient/presentation/screens/notifications_screen.dart';
 import '../features/patient/presentation/screens/patient_dashboard_screen.dart';
 import '../features/patient/presentation/screens/patient_detail_screens.dart';
-import '../features/patient/presentation/screens/patient_info_screen.dart';
+import '../features/patient/presentation/screens/profile/about_app_screen.dart';
+import '../features/patient/presentation/screens/profile/change_password_screen.dart';
+import '../features/patient/presentation/screens/profile/edit_profile_screen.dart';
+import '../features/patient/presentation/screens/profile/health_info_screen.dart';
+import '../features/patient/presentation/screens/profile/help_support_screen.dart';
+import '../features/patient/presentation/screens/profile/language_settings_screen.dart';
+import '../features/patient/presentation/screens/profile/notification_settings_screen.dart';
+import '../features/patient/presentation/screens/profile/privacy_policy_screen.dart';
 import '../features/patient/presentation/screens/profile_screen.dart';
 import '../features/patient/presentation/screens/settings_screen.dart';
 import '../features/patient/presentation/widgets/patient_bottom_navigation.dart';
@@ -218,89 +227,62 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.patientProfile,
         name: AppRoutes.patientProfileName,
-        builder: (context, state) => const ProfileScreen(),
+        builder: (context, state) => _withProfileCubit(const ProfileScreen()),
       ),
       GoRoute(
         path: AppRoutes.patientEditProfile,
         name: AppRoutes.patientEditProfileName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'تعديل الملف الشخصي',
-          description: 'واجهة تعديل الاسم ورقم الهاتف والبريد الإلكتروني.',
-          icon: Icons.edit_rounded,
-        ),
+        builder: (context, state) =>
+            _withProfileCubit(const EditProfileScreen()),
       ),
       GoRoute(
         path: AppRoutes.patientChangePassword,
         name: AppRoutes.patientChangePasswordName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'تغيير كلمة المرور',
-          description: 'واجهة تغيير كلمة المرور الحالية بكلمة مرور جديدة.',
-          icon: Icons.lock_reset_rounded,
-        ),
+        builder: (context, state) =>
+            _withProfileCubit(const ChangePasswordScreen()),
       ),
       GoRoute(
         path: AppRoutes.patientNotificationSettings,
         name: AppRoutes.patientNotificationSettingsName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'إعدادات الإشعارات',
-          description: 'تخصيص تنبيهات المواعيد والوصفات ونتائج التحاليل.',
-          icon: Icons.notifications_active_rounded,
-        ),
+        builder: (context, state) =>
+            _withProfileCubit(const NotificationSettingsScreen()),
       ),
       GoRoute(
         path: AppRoutes.patientLanguage,
         name: AppRoutes.patientLanguageName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'تغيير اللغة',
-          description: 'اختيار لغة واجهة التطبيق. العربية مفعلة حالياً.',
-          icon: Icons.language_rounded,
-          backRoute: AppRoutes.patientSettings,
-        ),
+        builder: (context, state) =>
+            _withProfileCubit(const LanguageSettingsScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.patientHealthInfo,
+        name: AppRoutes.patientHealthInfoName,
+        builder: (context, state) =>
+            _withProfileCubit(const HealthInfoScreen()),
       ),
       GoRoute(
         path: AppRoutes.patientHelp,
         name: AppRoutes.patientHelpName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'المساعدة',
-          description: 'أسئلة شائعة وإرشادات استخدام خدمات المريض الرقمية.',
-          icon: Icons.help_outline_rounded,
-        ),
+        builder: (context, state) => const HelpSupportScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientAbout,
         name: AppRoutes.patientAboutName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'حول التطبيق',
-          description:
-              'Digital Health System - منظومة رقمية لإدارة الخدمات الطبية.',
-          icon: Icons.info_outline_rounded,
-          backRoute: AppRoutes.patientSettings,
-        ),
+        builder: (context, state) => const AboutAppScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientProfilePrivacy,
+        name: AppRoutes.patientProfilePrivacyName,
+        builder: (context, state) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientProfileTerms,
+        name: AppRoutes.patientProfileTermsName,
+        builder: (context, state) => const TermsConditionsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientSettings,
         name: AppRoutes.patientSettingsName,
         builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.patientPrivacyPolicy,
-        name: AppRoutes.patientPrivacyPolicyName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'سياسة الخصوصية',
-          description: 'توضيح آلية حماية البيانات الصحية وخصوصية المستخدم.',
-          icon: Icons.privacy_tip_rounded,
-          backRoute: AppRoutes.patientSettings,
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.patientTerms,
-        name: AppRoutes.patientTermsName,
-        builder: (context, state) => const PatientInfoScreen(
-          title: 'شروط الاستخدام',
-          description: 'الشروط العامة لاستخدام خدمات المنظومة الرقمية.',
-          icon: Icons.gavel_rounded,
-          backRoute: AppRoutes.patientSettings,
-        ),
       ),
       GoRoute(
         path: AppRoutes.doctor,
@@ -366,6 +348,13 @@ abstract final class AppRouter {
       ),
     ],
   );
+
+  static Widget _withProfileCubit(Widget child) {
+    return BlocProvider(
+      create: (_) => ProfileCubit(),
+      child: child,
+    );
+  }
 
   static String _redirectToOnboarding(
     BuildContext context,

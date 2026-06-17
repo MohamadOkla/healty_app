@@ -31,6 +31,11 @@ class NotificationCard extends StatelessWidget {
     return AppCard(
       onTap: onTap,
       showShadow: !isRead,
+      backgroundColor:
+          isRead ? AppColors.white : AppColors.primary.withValues(alpha: 0.04),
+      borderColor: isRead
+          ? AppColors.textGrey.withValues(alpha: 0.10)
+          : AppColors.primary.withValues(alpha: 0.28),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -67,7 +72,12 @@ class NotificationCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppSpacing.xs),
-                Text(description, style: AppTextStyles.bodyMedium),
+                Text(
+                  description,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: isRead ? AppColors.textGrey : AppColors.textDark,
+                  ),
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   time,

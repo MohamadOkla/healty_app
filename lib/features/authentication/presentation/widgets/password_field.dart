@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
+import 'password_strength_indicator.dart';
 
 class PasswordField extends StatelessWidget {
   const PasswordField({super.key});
@@ -19,6 +21,7 @@ class PasswordField extends StatelessWidget {
           label: 'كلمة المرور',
           obscureText: !state.isPasswordVisible,
           textInputAction: TextInputAction.done,
+          inputFormatters: Validators.passwordInputFormatters,
           prefixIcon: const Icon(
             Icons.lock_outline_rounded,
             color: AppColors.primary,
@@ -35,15 +38,7 @@ class PasswordField extends StatelessWidget {
               color: AppColors.textGrey,
             ),
           ),
-          validator: (value) {
-            if ((value ?? '').isEmpty) {
-              return 'يرجى إدخال كلمة المرور';
-            }
-            if ((value ?? '').length < 6) {
-              return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-            }
-            return null;
-          },
+          validator: Validators.validatePassword,
         );
       },
     );

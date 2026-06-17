@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_text_field.dart';
 
 class RegisterPersonalInfoForm extends StatelessWidget {
@@ -9,28 +10,34 @@ class RegisterPersonalInfoForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        AppTextField(
+        const AppTextField(
           label: 'الاسم الكامل',
-          prefixIcon:
-              Icon(Icons.person_outline_rounded, color: AppColors.primary),
+          prefixIcon: Icon(
+            Icons.person_outline_rounded,
+            color: AppColors.primary,
+          ),
           textInputAction: TextInputAction.next,
         ),
-        SizedBox(height: AppSpacing.md),
-        AppTextField(
+        const SizedBox(height: AppSpacing.md),
+        const AppTextField(
           label: 'رقم الهاتف',
           prefixIcon: Icon(Icons.phone_outlined, color: AppColors.primary),
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.next,
         ),
-        SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.md),
         AppTextField(
           label: 'البريد الإلكتروني',
-          prefixIcon:
-              Icon(Icons.mail_outline_rounded, color: AppColors.primary),
+          prefixIcon: const Icon(
+            Icons.mail_outline_rounded,
+            color: AppColors.primary,
+          ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
+          inputFormatters: Validators.emailInputFormatters,
+          validator: Validators.validateEmail,
         ),
       ],
     );

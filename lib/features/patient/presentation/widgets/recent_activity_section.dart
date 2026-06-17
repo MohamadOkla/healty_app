@@ -6,6 +6,7 @@ import '../../../../core/constants/app_routes.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_card.dart';
 
 class RecentActivitySection extends StatelessWidget {
   const RecentActivitySection({super.key});
@@ -30,31 +31,42 @@ class RecentActivitySection extends StatelessWidget {
       ),
     ];
 
-    return Container(
+    return AppCard(
       padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('آخر النشاطات', style: AppTextStyles.titleMedium),
+          Text(
+            'آخر النشاطات',
+            style: AppTextStyles.titleMedium.copyWith(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           const SizedBox(height: AppSpacing.md),
           ...activities.map(
             (item) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.md),
               child: InkWell(
                 onTap: () => context.go(item.$3),
-                borderRadius: BorderRadius.circular(AppRadius.md),
+                splashFactory: NoSplash.splashFactory,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
+                borderRadius: BorderRadius.circular(AppRadius.lg),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor:
-                            AppColors.secondary.withValues(alpha: 0.14),
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary.withValues(alpha: 0.14),
+                          shape: BoxShape.circle,
+                        ),
                         child:
                             Icon(item.$1, color: AppColors.primary, size: 20),
                       ),
@@ -62,7 +74,10 @@ class RecentActivitySection extends StatelessWidget {
                       Expanded(
                         child: Text(item.$2, style: AppTextStyles.bodyMedium),
                       ),
-                      const Icon(Icons.chevron_left_rounded),
+                      const Icon(
+                        Icons.chevron_left_rounded,
+                        color: AppColors.primary,
+                      ),
                     ],
                   ),
                 ),

@@ -26,11 +26,15 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = onPressed != null;
     final foregroundColor = isOutlined ? AppColors.primary : AppColors.white;
     final child = isLoading
-        ? const SizedBox.square(
+        ? SizedBox.square(
             dimension: AppSizes.iconSm,
-            child: CircularProgressIndicator(strokeWidth: 2.5),
+            child: CircularProgressIndicator(
+              strokeWidth: 2.5,
+              color: foregroundColor,
+            ),
           )
         : Row(
             mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
@@ -56,7 +60,7 @@ class AppButton extends StatelessWidget {
     final style = isOutlined
         ? OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColors.white,
             minimumSize: const Size(0, AppSizes.buttonHeight),
             elevation: 0,
             shadowColor: Colors.transparent,
@@ -64,7 +68,7 @@ class AppButton extends StatelessWidget {
             splashFactory: NoSplash.splashFactory,
             side: const BorderSide(color: AppColors.primary),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ).copyWith(
             overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -73,15 +77,16 @@ class AppButton extends StatelessWidget {
             splashFactory: NoSplash.splashFactory,
           )
         : ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: Colors.transparent,
             foregroundColor: AppColors.white,
             minimumSize: const Size(0, AppSizes.buttonHeight),
             elevation: 0,
+            disabledBackgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             splashFactory: NoSplash.splashFactory,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ).copyWith(
             overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -96,10 +101,31 @@ class AppButton extends StatelessWidget {
             style: style,
             child: child,
           )
-        : ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: style,
-            child: child,
+        : DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: isEnabled
+                  ? const LinearGradient(
+                      colors: [AppColors.primary, AppColors.secondary],
+                    )
+                  : null,
+              color:
+                  isEnabled ? null : AppColors.textGrey.withValues(alpha: 0.35),
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              boxShadow: isEnabled
+                  ? [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.20),
+                        blurRadius: 18,
+                        offset: const Offset(0, 10),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: ElevatedButton(
+              onPressed: isLoading ? null : onPressed,
+              style: style,
+              child: child,
+            ),
           );
 
     return SizedBox(width: expand ? double.infinity : null, child: button);

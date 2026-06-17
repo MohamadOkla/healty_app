@@ -30,28 +30,60 @@ class _QuickActionCardState extends State<QuickActionCard> {
       scale: _pressed ? 0.97 : 1,
       duration: const Duration(milliseconds: 120),
       child: Material(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(AppRadius.xl),
         child: InkWell(
           onTap: widget.onTap,
           onTapDown: (_) => setState(() => _pressed = true),
           onTapCancel: () => setState(() => _pressed = false),
           onTapUp: (_) => setState(() => _pressed = false),
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          splashFactory: NoSplash.splashFactory,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
           child: Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppRadius.lg),
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppRadius.xl),
+              border: Border.all(
+                color: AppColors.primary.withValues(alpha: 0.08),
+              ),
               boxShadow: AppShadows.soft,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(widget.action.icon, color: AppColors.primary, size: 34),
-                const SizedBox(height: AppSpacing.sm),
-                Text(widget.action.title,
-                    style: AppTextStyles.bodyMedium,
-                    textAlign: TextAlign.center),
+                Container(
+                  width: 54,
+                  height: 54,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.primary.withValues(alpha: 0.14),
+                        AppColors.secondary.withValues(alpha: 0.18),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    widget.action.icon,
+                    color: AppColors.primary,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Text(
+                  widget.action.title,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textDark,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           ),

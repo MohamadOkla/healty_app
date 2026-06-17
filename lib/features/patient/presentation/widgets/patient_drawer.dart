@@ -14,20 +14,34 @@ class PatientDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: AppColors.background,
       child: SafeArea(
         child: Column(
           children: [
-            Padding(
+            Container(
+              margin: const EdgeInsets.all(AppSpacing.md),
               padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.primary, AppColors.secondary],
+                ),
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+              ),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundColor:
-                        AppColors.secondary.withValues(alpha: 0.18),
-                    child: const Icon(
-                      Icons.person_rounded,
-                      color: AppColors.primary,
+                  Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: AppColors.white.withValues(alpha: 0.22),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const CircleAvatar(
+                      radius: 28,
+                      backgroundColor: AppColors.white,
+                      child: Icon(
+                        Icons.person_rounded,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -35,10 +49,20 @@ class PatientDrawer extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('محمد أحمد', style: AppTextStyles.titleMedium),
+                        Text(
+                          'محمد أحمد',
+                          style: AppTextStyles.titleMedium.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
                         Text(
                           'mohammad.health@example.com',
-                          style: AppTextStyles.bodyMedium,
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.white.withValues(alpha: 0.86),
+                            fontSize: 13,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
@@ -47,10 +71,12 @@ class PatientDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
                 children: [
                   _DrawerItem(
                     icon: Icons.home_rounded,
@@ -99,8 +125,11 @@ class PatientDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Material(
                 color: AppColors.error.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(AppRadius.md),
+                borderRadius: BorderRadius.circular(AppRadius.lg),
                 child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                  ),
                   leading: const Icon(
                     Icons.logout_rounded,
                     color: AppColors.error,
@@ -109,7 +138,7 @@ class PatientDrawer extends StatelessWidget {
                     'تسجيل الخروج',
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.error,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   onTap: () => showPatientLogoutDialog(context),
@@ -136,11 +165,38 @@ class _DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
-      title: Text(title, style: AppTextStyles.bodyMedium),
-      trailing: const Icon(Icons.chevron_left_rounded),
-      onTap: () => context.go(route),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+      child: Material(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+          ),
+          leading: Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.10),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: AppColors.primary, size: 21),
+          ),
+          title: Text(
+            title,
+            style: AppTextStyles.bodyMedium.copyWith(
+              color: AppColors.textDark,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          trailing: const Icon(
+            Icons.chevron_left_rounded,
+            color: AppColors.primary,
+          ),
+          onTap: () => context.go(route),
+        ),
+      ),
     );
   }
 }

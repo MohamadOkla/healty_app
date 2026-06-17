@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants/app_colors.dart';
 import '../theme/app_radius.dart';
@@ -20,6 +21,7 @@ class AppTextField extends StatelessWidget {
     this.maxLines = 1,
     this.validator,
     this.onChanged,
+    this.inputFormatters,
   });
 
   final TextEditingController? controller;
@@ -34,6 +36,7 @@ class AppTextField extends StatelessWidget {
   final int maxLines;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,7 @@ class AppTextField extends StatelessWidget {
       maxLines: maxLines,
       validator: validator,
       onChanged: onChanged,
+      inputFormatters: inputFormatters,
       style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textDark),
       decoration: InputDecoration(
         labelText: label,

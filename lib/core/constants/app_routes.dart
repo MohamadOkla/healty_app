@@ -97,7 +97,8 @@ abstract final class AppRoutes {
   static const String patientEditProfile = '/patient/profile/edit';
   static const String patientEditProfileName = 'patient-edit-profile';
 
-  static const String patientChangePassword = '/patient/profile/password';
+  static const String patientChangePassword =
+      '/patient/profile/change-password';
   static const String patientChangePasswordName = 'patient-change-password';
 
   static const String patientNotificationSettings =
@@ -114,13 +115,22 @@ abstract final class AppRoutes {
   static const String patientAbout = '/patient/profile/about';
   static const String patientAboutName = 'patient-about';
 
+  static const String patientProfilePrivacy = '/patient/profile/privacy';
+  static const String patientProfilePrivacyName = 'patient-profile-privacy';
+
+  static const String patientProfileTerms = '/patient/profile/terms';
+  static const String patientProfileTermsName = 'patient-profile-terms';
+
+  static const String patientHealthInfo = '/patient/profile/health-info';
+  static const String patientHealthInfoName = 'patient-health-info';
+
   static const String patientSettings = '/patient/settings';
   static const String patientSettingsName = 'patient-settings';
 
-  static const String patientPrivacyPolicy = '/patient/settings/privacy-policy';
+  static const String patientPrivacyPolicy = patientProfilePrivacy;
   static const String patientPrivacyPolicyName = 'patient-privacy-policy';
 
-  static const String patientTerms = '/patient/settings/terms';
+  static const String patientTerms = patientProfileTerms;
   static const String patientTermsName = 'patient-terms';
 
   static const String doctor = '/doctor';

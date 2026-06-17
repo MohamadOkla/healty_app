@@ -17,11 +17,26 @@ class DashboardHeader extends StatelessWidget {
       children: [
         InkWell(
           onTap: () => context.go(AppRoutes.patientProfile),
+          splashFactory: NoSplash.splashFactory,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
           borderRadius: BorderRadius.circular(AppRadius.xl),
-          child: CircleAvatar(
-            radius: 26,
-            backgroundColor: AppColors.secondary.withValues(alpha: 0.18),
-            child: const Icon(Icons.person_rounded, color: AppColors.primary),
+          child: Container(
+            padding: const EdgeInsets.all(3),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.secondary],
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: const CircleAvatar(
+              radius: 25,
+              backgroundColor: AppColors.white,
+              child: Icon(Icons.person_rounded, color: AppColors.primary),
+            ),
           ),
         ),
         const SizedBox(width: AppSpacing.md),
@@ -29,7 +44,13 @@ class DashboardHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('مرحباً محمد', style: AppTextStyles.titleMedium),
+              Text(
+                'مرحباً محمد',
+                style: AppTextStyles.titleMedium.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               const SizedBox(height: AppSpacing.xs),
               Text(
                 'نتمنى لك يوماً صحياً سعيداً',
@@ -53,13 +74,14 @@ class DashboardHeader extends StatelessWidget {
                 padding: const EdgeInsets.all(AppSpacing.xs),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFFEF4444),
+                  color: AppColors.error,
                 ),
                 child: Text(
                   '3',
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: AppColors.white,
                     fontSize: 10,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
@@ -95,10 +117,14 @@ class _HeaderIconButton extends StatelessWidget {
       label: semanticLabel,
       child: Material(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         child: IconButton(
           iconSize: AppSizes.iconMd,
-          color: AppColors.textDark,
+          color: AppColors.primary,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
           onPressed: onPressed,
           icon: Icon(icon),
         ),
