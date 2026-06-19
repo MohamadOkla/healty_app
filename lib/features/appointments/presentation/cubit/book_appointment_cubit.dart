@@ -71,7 +71,14 @@ class BookAppointmentCubit extends Cubit<BookAppointmentState> {
   ];
 
   void selectSpecialty(String specialty) {
-    emit(state.copyWith(selectedSpecialty: specialty));
+    final shouldClearDoctor = state.selectedDoctor != null &&
+        state.selectedDoctor!.specialty != specialty;
+    emit(
+      state.copyWith(
+        selectedSpecialty: specialty,
+        clearDoctor: shouldClearDoctor,
+      ),
+    );
   }
 
   void selectHospital(String hospital) {
@@ -92,5 +99,22 @@ class BookAppointmentCubit extends Cubit<BookAppointmentState> {
 
   void selectTime(String time) {
     emit(state.copyWith(selectedTime: time));
+  }
+
+  void searchDoctors(String query) {
+    emit(state.copyWith(doctorSearchQuery: query));
+  }
+
+  List<DoctorUiModel> get visibleDoctors {
+    final query = state.doctorSearchQuery.trim().toLowerCase();
+    return doctors.where((doctor) {
+      final matchesSpecialty = state.selectedSpecialty == null ||
+          doctor.specialty == state.selectedSpecialty;
+      final matchesSearch = query.isEmpty ||
+          doctor.name.toLowerCase().contains(query) ||
+          doctor.specialty.toLowerCase().contains(query) ||
+          doctor.hospital.toLowerCase().contains(query);
+      return matchesSpecialty && matchesSearch;
+    }).toList(growable: false);
   }
 }

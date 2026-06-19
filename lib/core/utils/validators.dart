@@ -21,8 +21,7 @@ abstract final class Validators {
   static const String passwordSpecialMessage =
       'يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل';
 
-  static const String confirmPasswordMessage =
-      'كلمتا المرور غير متطابقتين';
+  static const String confirmPasswordMessage = 'كلمتا المرور غير متطابقتين';
 
   static final List<TextInputFormatter> emailInputFormatters = [
     FilteringTextInputFormatter.allow(AppRegex.emailAllowedCharacters),

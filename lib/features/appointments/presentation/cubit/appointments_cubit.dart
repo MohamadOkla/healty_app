@@ -12,6 +12,51 @@ class AppointmentsCubit extends Cubit<AppointmentsState> {
     emit(state.copyWith(selectedStatus: status));
   }
 
+  void searchAppointments(String query) {
+    emit(state.copyWith(searchQuery: query));
+  }
+
+  void applyFilters({
+    required AppointmentStatus status,
+    String? specialty,
+    String? date,
+  }) {
+    emit(
+      state.copyWith(
+        selectedStatus: status,
+        specialtyFilter: specialty,
+        dateFilter: date,
+        clearSpecialtyFilter: specialty == null,
+        clearDateFilter: date == null,
+      ),
+    );
+  }
+
+  void clearFilters() {
+    emit(
+      state.copyWith(
+        searchQuery: '',
+        selectedStatus: AppointmentStatus.confirmed,
+        clearSpecialtyFilter: true,
+        clearDateFilter: true,
+      ),
+    );
+  }
+
+  List<String> get specialties {
+    return state.appointments
+        .map((appointment) => appointment.specialty)
+        .toSet()
+        .toList(growable: false);
+  }
+
+  List<String> get dates {
+    return state.appointments
+        .map((appointment) => appointment.date)
+        .toSet()
+        .toList(growable: false);
+  }
+
   static AppointmentUiModel get sampleAppointment => _fakeAppointments.first;
 
   static const List<AppointmentUiModel> _fakeAppointments = [

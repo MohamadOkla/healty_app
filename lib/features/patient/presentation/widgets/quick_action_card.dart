@@ -54,37 +54,48 @@ class _QuickActionCardState extends State<QuickActionCard> {
               ),
               boxShadow: AppShadows.soft,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primary.withValues(alpha: 0.14),
-                        AppColors.secondary.withValues(alpha: 0.18),
-                      ],
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final compact = constraints.maxHeight < 132;
+                final iconBoxSize = compact ? 46.0 : 54.0;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: iconBoxSize,
+                      height: iconBoxSize,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.primary.withValues(alpha: 0.14),
+                            AppColors.secondary.withValues(alpha: 0.18),
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        widget.action.icon,
+                        color: AppColors.primary,
+                        size: compact ? 25 : 30,
+                      ),
                     ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    widget.action.icon,
-                    color: AppColors.primary,
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  widget.action.title,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textDark,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                    SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
+                    Flexible(
+                      child: Text(
+                        widget.action.title,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textDark,
+                          fontWeight: FontWeight.w700,
+                          fontSize: compact ? 13 : null,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),

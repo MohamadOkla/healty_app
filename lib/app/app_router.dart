@@ -28,10 +28,14 @@ import '../features/authentication/presentation/screens/reset_password_screen.da
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../features/patient/presentation/cubit/profile_cubit.dart';
 import '../features/patient/presentation/screens/medical_records_screen.dart';
+import '../features/patient/presentation/screens/medical_record_details_screen.dart';
+import '../features/patient/presentation/screens/consultation_request_screen.dart';
+import '../features/patient/presentation/screens/my_consultations_screen.dart';
 import '../features/patient/presentation/screens/notification_details_screen.dart';
 import '../features/patient/presentation/screens/notifications_screen.dart';
 import '../features/patient/presentation/screens/patient_dashboard_screen.dart';
-import '../features/patient/presentation/screens/patient_detail_screens.dart';
+import '../features/patient/presentation/screens/prescription_details_screen.dart';
+import '../features/patient/presentation/screens/laboratory_result_details_screen.dart';
 import '../features/patient/presentation/screens/profile/about_app_screen.dart';
 import '../features/patient/presentation/screens/profile/change_password_screen.dart';
 import '../features/patient/presentation/screens/profile/edit_profile_screen.dart';
@@ -213,6 +217,16 @@ abstract final class AppRouter {
         path: AppRoutes.patientLaboratoryDetails,
         name: AppRoutes.patientLaboratoryDetailsName,
         builder: (context, state) => const LaboratoryResultDetailsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientRequestConsultation,
+        name: AppRoutes.patientRequestConsultationName,
+        builder: (context, state) => const ConsultationRequestScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.patientConsultations,
+        name: AppRoutes.patientConsultationsName,
+        builder: (context, state) => const MyConsultationsScreen(),
       ),
       GoRoute(
         path: AppRoutes.patientNotifications,

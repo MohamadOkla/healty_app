@@ -6,6 +6,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/book_appointment_cubit.dart';
 import '../cubit/book_appointment_state.dart';
@@ -21,7 +22,9 @@ class DoctorSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-        value: cubit, child: const _DoctorSelectionView());
+      value: cubit,
+      child: const _DoctorSelectionView(),
+    );
   }
 }
 
@@ -46,19 +49,17 @@ class _DoctorSelectionView extends StatelessWidget {
       body: BlocBuilder<BookAppointmentCubit, BookAppointmentState>(
         builder: (context, state) {
           final cubit = context.read<BookAppointmentCubit>();
-          final doctors = BookAppointmentCubit.doctors.where((doctor) {
-            return state.selectedSpecialty == null ||
-                doctor.specialty == state.selectedSpecialty;
-          }).toList();
+          final doctors = cubit.visibleDoctors;
 
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.md),
             children: [
               const BookingStepIndicator(currentStep: 2),
               const SizedBox(height: AppSpacing.lg),
-              const AppTextField(
-                hint: 'ابحث عن طبيب أو مشفى',
-                prefixIcon: Icon(Icons.search_rounded),
+              AppTextField(
+                hint: 'ابحث عن طبيب أو اختصاص أو مشفى',
+                prefixIcon: const Icon(Icons.search_rounded),
+                onChanged: cubit.searchDoctors,
               ),
               const SizedBox(height: AppSpacing.md),
               SingleChildScrollView(
@@ -76,16 +77,23 @@ class _DoctorSelectionView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              ...doctors.map(
-                (doctor) => Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                  child: DoctorCard(
-                    doctor: doctor,
-                    isSelected: state.selectedDoctor?.id == doctor.id,
-                    onTap: () => cubit.selectDoctor(doctor),
+              if (doctors.isEmpty)
+                const AppEmptyState(
+                  title: 'لا توجد نتائج',
+                  message: 'غيّر كلمة البحث أو الاختصاص لعرض أطباء آخرين.',
+                  icon: Icons.search_off_rounded,
+                )
+              else
+                ...doctors.map(
+                  (doctor) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                    child: DoctorCard(
+                      doctor: doctor,
+                      isSelected: state.selectedDoctor?.id == doctor.id,
+                      onTap: () => cubit.selectDoctor(doctor),
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(height: AppSpacing.md),
               AppButton(
                 text: 'متابعة لاختيار الموعد',

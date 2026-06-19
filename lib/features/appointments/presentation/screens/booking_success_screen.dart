@@ -25,17 +25,19 @@ class BookingSuccessScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
             const SizedBox(height: AppSpacing.xxl),
-            Container(
-              width: 96,
-              height: 96,
-              decoration: BoxDecoration(
-                color: AppColors.success.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(AppRadius.xl),
-              ),
-              child: const Icon(
-                Icons.check_circle_rounded,
-                color: AppColors.success,
-                size: 64,
+            Center(
+              child: Container(
+                width: 96,
+                height: 96,
+                decoration: BoxDecoration(
+                  color: AppColors.success.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppRadius.xl),
+                ),
+                child: const Icon(
+                  Icons.check_circle_rounded,
+                  color: AppColors.success,
+                  size: 64,
+                ),
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -57,7 +59,7 @@ class BookingSuccessScreen extends StatelessWidget {
                   AppointmentInfoRow(
                     icon: Icons.person_rounded,
                     label: 'الطبيب',
-                    value: booking.selectedDoctor?.name ?? 'د. أحمد خالد',
+                    value: booking.selectedDoctor?.name ?? 'غير محدد',
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppointmentInfoRow(
@@ -65,7 +67,7 @@ class BookingSuccessScreen extends StatelessWidget {
                     label: 'الاختصاص',
                     value: booking.selectedDoctor?.specialty ??
                         booking.selectedSpecialty ??
-                        'قلبية',
+                        'غير محدد',
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppointmentInfoRow(
@@ -73,13 +75,25 @@ class BookingSuccessScreen extends StatelessWidget {
                     label: 'المشفى',
                     value: booking.selectedDoctor?.hospital ??
                         booking.selectedHospital ??
-                        'مشفى دمشق الجامعي',
+                        'غير محدد',
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppointmentInfoRow(
+                    icon: Icons.medical_information_rounded,
+                    label: 'نوع الزيارة',
+                    value: booking.selectedVisitType ?? 'غير محدد',
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppointmentInfoRow(
+                    icon: Icons.event_rounded,
+                    label: 'التاريخ',
+                    value: _formatDate(booking.selectedDate),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   AppointmentInfoRow(
                     icon: Icons.schedule_rounded,
                     label: 'الوقت',
-                    value: booking.selectedTime ?? '10:30 صباحاً',
+                    value: booking.selectedTime ?? 'غير محدد',
                   ),
                 ],
               ),
@@ -101,5 +115,12 @@ class BookingSuccessScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) {
+      return 'غير محدد';
+    }
+    return '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
   }
 }

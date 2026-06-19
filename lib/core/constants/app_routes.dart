@@ -83,6 +83,14 @@ abstract final class AppRoutes {
   static const String patientLaboratoryDetailsName =
       'patient-laboratory-details';
 
+  static const String patientRequestConsultation =
+      '/patient/laboratory/request-consultation';
+  static const String patientRequestConsultationName =
+      'patient-request-consultation';
+
+  static const String patientConsultations = '/patient/consultations';
+  static const String patientConsultationsName = 'patient-consultations';
+
   static const String patientNotifications = '/patient/notifications';
   static const String patientNotificationsName = 'patient-notifications';
 

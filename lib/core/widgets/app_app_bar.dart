@@ -11,7 +11,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.actions,
     this.centerTitle = true,
-    this.backgroundColor = AppColors.background,
+    this.backgroundColor = AppColors.primary,
   });
 
   final String? title;
@@ -30,16 +30,20 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? null
           : Text(
               title!,
-              style: AppTextStyles.titleMedium,
+              style: AppTextStyles.titleMedium.copyWith(
+                color: AppColors.white,
+              ),
               textAlign: TextAlign.center,
             ),
       leading: leading,
       actions: actions,
       centerTitle: centerTitle,
       backgroundColor: backgroundColor,
-      foregroundColor: AppColors.textDark,
+      foregroundColor: AppColors.white,
       elevation: 0,
       scrolledUnderElevation: 0,
+      iconTheme: const IconThemeData(color: AppColors.white),
+      actionsIconTheme: const IconThemeData(color: AppColors.white),
     );
   }
 }

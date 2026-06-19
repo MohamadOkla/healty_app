@@ -6,7 +6,6 @@ import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
-import 'password_strength_indicator.dart';
 
 class PasswordField extends StatelessWidget {
   const PasswordField({super.key});

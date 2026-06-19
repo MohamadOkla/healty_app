@@ -77,7 +77,12 @@ class PatientBottomNavigation extends StatelessWidget {
               AppRoutes.patientNotifications,
               AppRoutes.patientProfile,
             ];
-            context.go(routes[index]);
+            final targetRoute = routes[index];
+            final currentRoute = GoRouterState.of(context).uri.path;
+            if (currentRoute == targetRoute) {
+              return;
+            }
+            context.go(targetRoute);
           },
         ),
       ),
