@@ -101,6 +101,114 @@ abstract final class AppTheme {
     );
   }
 
+  static ThemeData get darkTheme {
+    const darkBackground = Color(0xFF0F172A);
+    const darkSurface = Color(0xFF1E293B);
+    const darkPrimary = Color(0xFF14B8A6);
+    const darkSecondary = Color(0xFF2DD4BF);
+    const darkText = Color(0xFFF8FAFC);
+    const darkTextGrey = Color(0xFFCBD5E1);
+
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: darkPrimary,
+      brightness: Brightness.dark,
+      primary: darkPrimary,
+      secondary: darkSecondary,
+      surface: darkSurface,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      splashFactory: NoSplash.splashFactory,
+      hoverColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: darkBackground,
+      textTheme: AppTextStyles.textTheme.apply(
+        bodyColor: darkText,
+        displayColor: darkText,
+      ),
+      iconTheme: const IconThemeData(color: darkText),
+      appBarTheme: const AppBarTheme(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: darkPrimary,
+        foregroundColor: AppColors.white,
+        surfaceTintColor: Colors.transparent,
+        iconTheme: IconThemeData(color: AppColors.white),
+        actionsIconTheme: IconThemeData(color: AppColors.white),
+      ),
+      cardTheme: CardThemeData(
+        color: darkSurface,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        indicatorColor: darkPrimary.withValues(alpha: 0.18),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          return IconThemeData(
+            color: states.contains(WidgetState.selected)
+                ? darkPrimary
+                : darkTextGrey,
+          );
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          return AppTextStyles.bodyMedium.copyWith(
+            color: states.contains(WidgetState.selected)
+                ? darkPrimary
+                : darkTextGrey,
+            fontSize: 12,
+            fontWeight: states.contains(WidgetState.selected)
+                ? FontWeight.w700
+                : FontWeight.w500,
+          );
+        }),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: darkPrimary,
+        foregroundColor: AppColors.white,
+        elevation: 0,
+        focusElevation: 0,
+        hoverElevation: 0,
+        highlightElevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: _noFeedbackButtonStyle,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: _noFeedbackButtonStyle,
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: _noFeedbackButtonStyle,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: _noFeedbackButtonStyle,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          shadowColor: WidgetStateProperty.all(Colors.transparent),
+          surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+          splashFactory: NoSplash.splashFactory,
+        ),
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: darkPrimary,
+      ),
+    );
+  }
+
   static final ButtonStyle _noFeedbackButtonStyle = ButtonStyle(
     overlayColor: WidgetStateProperty.all(Colors.transparent),
     shadowColor: WidgetStateProperty.all(Colors.transparent),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
@@ -9,6 +10,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../cubit/book_appointment_state.dart';
+import '../cubit/book_appointment_cubit.dart';
 import '../widgets/appointment_info_row.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
@@ -102,14 +104,20 @@ class BookingSuccessScreen extends StatelessWidget {
             AppButton(
               text: 'عرض مواعيدي',
               icon: Icons.calendar_month_rounded,
-              onPressed: () => context.go(AppRoutes.patientAppointments),
+              onPressed: () {
+                context.read<BookAppointmentCubit>().resetBooking();
+                context.go(AppRoutes.patientAppointments);
+              },
             ),
             const SizedBox(height: AppSpacing.sm),
             AppButton(
               text: 'العودة للرئيسية',
               icon: Icons.home_rounded,
               isOutlined: true,
-              onPressed: () => context.go(AppRoutes.patientDashboard),
+              onPressed: () {
+                context.read<BookAppointmentCubit>().resetBooking();
+                context.go(AppRoutes.patientDashboard);
+              },
             ),
           ],
         ),

@@ -7,4 +7,6 @@ abstract final class StorageKeys {
   static const accountCreated = 'accountCreated';
   static const otpVerified = 'otpVerified';
   static const passwordResetCompleted = 'passwordResetCompleted';
+  static const selectedLanguage = 'selectedLanguage';
+  static const isDarkMode = 'isDarkMode';
 }

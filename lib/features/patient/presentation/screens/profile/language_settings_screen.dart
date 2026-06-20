@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../app/cubit/app_settings_cubit.dart';
+import '../../../../../app/cubit/app_settings_state.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/theme/app_spacing.dart';
-import '../../cubit/profile_cubit.dart';
-import '../../cubit/profile_state.dart';
 
 class LanguageSettingsScreen extends StatelessWidget {
   const LanguageSettingsScreen({super.key});
@@ -23,20 +23,21 @@ class LanguageSettingsScreen extends StatelessWidget {
         ),
         title: const Text('تغيير اللغة'),
       ),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
+      body: BlocBuilder<AppSettingsCubit, AppSettingsState>(
         builder: (context, state) {
+          final language = state.isArabic ? 'ar' : 'en';
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.md),
             children: [
               RadioListTile<String>(
-                value: 'العربية',
-                groupValue: state.language,
+                value: 'ar',
+                groupValue: language,
                 onChanged: (value) => _changeLanguage(context, value),
                 title: const Text('العربية'),
               ),
               RadioListTile<String>(
-                value: 'English',
-                groupValue: state.language,
+                value: 'en',
+                groupValue: language,
                 onChanged: (value) => _changeLanguage(context, value),
                 title: const Text('English'),
               ),
@@ -47,11 +48,16 @@ class LanguageSettingsScreen extends StatelessWidget {
     );
   }
 
-  void _changeLanguage(BuildContext context, String? value) {
+  Future<void> _changeLanguage(BuildContext context, String? value) async {
     if (value == null) return;
-    context.read<ProfileCubit>().changeLanguage(value);
+    await context.read<AppSettingsCubit>().changeLanguage(value);
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('تم تغيير اللغة')),
+      SnackBar(
+        content: Text(value == 'ar'
+            ? 'تم تغيير اللغة إلى العربية'
+            : 'Language changed to English'),
+      ),
     );
   }
 }

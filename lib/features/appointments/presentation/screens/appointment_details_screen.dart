@@ -166,11 +166,11 @@ class AppointmentDetailsScreen extends StatelessWidget {
         content: const Text('هل أنت متأكد من رغبتك بإلغاء هذا الموعد؟'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
             child: const Text('تراجع'),
           ),
           FilledButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
             child: const Text('تأكيد الإلغاء'),
           ),
         ],

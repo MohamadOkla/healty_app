@@ -11,4 +11,3 @@ class OnboardingModel {
   final String description;
   final IconData icon;
 }
-

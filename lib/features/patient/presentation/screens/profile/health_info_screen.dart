@@ -111,7 +111,7 @@ class HealthInfoScreen extends StatelessWidget {
                         chronicDiseases: state.chronicDiseases,
                       );
                   if (!context.mounted) return;
-                  Navigator.of(sheetContext).pop();
+                  sheetContext.pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('تم تحديث المعلومات الصحية'),

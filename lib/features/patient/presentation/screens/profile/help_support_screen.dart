@@ -73,7 +73,7 @@ class HelpSupportScreen extends StatelessWidget {
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
             child: const Text('تم'),
           ),
         ],
@@ -104,7 +104,7 @@ class HelpSupportScreen extends StatelessWidget {
             AppButton(
               text: 'إرسال',
               onPressed: () {
-                Navigator.of(sheetContext).pop();
+                sheetContext.pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('تم إرسال الملاحظة')),
                 );

@@ -74,7 +74,10 @@ class _PatientDashboardView extends StatelessWidget {
                               const SizedBox(height: AppSpacing.xl),
                               Text(
                                 'الخدمات السريعة',
-                                style: AppTextStyles.titleMedium,
+                                style: AppTextStyles.titleMedium.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
                               const SizedBox(height: AppSpacing.md),
                               QuickActionsGrid(actions: state.quickActions),

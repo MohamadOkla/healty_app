@@ -51,6 +51,8 @@ import '../features/role_selection/presentation/screens/role_selection_screen.da
 import '../features/splash/presentation/screens/splash_screen.dart';
 
 abstract final class AppRouter {
+  static final BookAppointmentCubit _bookingCubit = BookAppointmentCubit();
+
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.splash,
     routes: [
@@ -150,7 +152,7 @@ abstract final class AppRouter {
         builder: (context, state) {
           final cubit = state.extra;
           return BookAppointmentScreen(
-            cubit: cubit is BookAppointmentCubit ? cubit : null,
+            cubit: cubit is BookAppointmentCubit ? cubit : _bookingCubit,
           );
         },
       ),
@@ -160,8 +162,7 @@ abstract final class AppRouter {
         builder: (context, state) {
           final cubit = state.extra;
           return DoctorSelectionScreen(
-            cubit:
-                cubit is BookAppointmentCubit ? cubit : BookAppointmentCubit(),
+            cubit: cubit is BookAppointmentCubit ? cubit : _bookingCubit,
           );
         },
       ),
@@ -171,8 +172,7 @@ abstract final class AppRouter {
         builder: (context, state) {
           final cubit = state.extra;
           return DateTimeSelectionScreen(
-            cubit:
-                cubit is BookAppointmentCubit ? cubit : BookAppointmentCubit(),
+            cubit: cubit is BookAppointmentCubit ? cubit : _bookingCubit,
           );
         },
       ),
@@ -181,10 +181,13 @@ abstract final class AppRouter {
         name: AppRoutes.patientBookingSuccessName,
         builder: (context, state) {
           final booking = state.extra;
-          return BookingSuccessScreen(
-            booking: booking is BookAppointmentState
-                ? booking
-                : const BookAppointmentState(),
+          return BlocProvider.value(
+            value: _bookingCubit,
+            child: BookingSuccessScreen(
+              booking: booking is BookAppointmentState
+                  ? booking
+                  : _bookingCubit.state,
+            ),
           );
         },
       ),
