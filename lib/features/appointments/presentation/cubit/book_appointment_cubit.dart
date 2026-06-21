@@ -8,26 +8,13 @@ import 'book_appointment_state.dart';
 class BookAppointmentCubit extends Cubit<BookAppointmentState> {
   BookAppointmentCubit() : super(const BookAppointmentState());
 
-  static const specialties = [
-    'قلبية',
-    'جلدية',
-    'عظمية',
-    'أطفال',
-    'داخلية',
-    'عيون',
-  ];
-
+  static const specialties = ['قلبية', 'جلدية', 'عظمية', 'أطفال'];
   static const hospitals = [
     'مشفى دمشق الجامعي',
     'مشفى المواساة',
     'مشفى الأسد الجامعي',
   ];
-
-  static const visitTypes = [
-    'كشف جديد',
-    'متابعة',
-    'استشارة',
-  ];
+  static const visitTypes = ['كشف جديد', 'متابعة', 'استشارة'];
 
   static const doctors = [
     DoctorUiModel(
@@ -69,26 +56,6 @@ class BookAppointmentCubit extends Cubit<BookAppointmentState> {
       experience: '14 سنة خبرة',
       earliestAvailable: 'الإثنين 11:15 صباحاً',
       icon: Icons.child_care_rounded,
-    ),
-    DoctorUiModel(
-      id: 'd5',
-      name: 'د. نور الدين حمدان',
-      specialty: 'داخلية',
-      hospital: 'مشفى المواساة',
-      rating: 4.8,
-      experience: '11 سنة خبرة',
-      earliestAvailable: 'الثلاثاء 12:30 مساءً',
-      icon: Icons.medical_services_rounded,
-    ),
-    DoctorUiModel(
-      id: 'd6',
-      name: 'د. ميساء العلي',
-      specialty: 'عيون',
-      hospital: 'مشفى الأسد الجامعي',
-      rating: 4.7,
-      experience: '8 سنوات خبرة',
-      earliestAvailable: 'الأربعاء 09:30 صباحاً',
-      icon: Icons.visibility_rounded,
     ),
   ];
 

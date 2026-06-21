@@ -21,9 +21,9 @@ class PatientDashboardCubit extends Cubit<PatientDashboardState> {
             ),
             quickActions: [
               QuickActionModel(
-                title: 'حجز موعد',
-                icon: Icons.add_circle_rounded,
-                route: AppRoutes.patientBookAppointment,
+                title: 'مواعيدي',
+                icon: Icons.calendar_month_rounded,
+                route: AppRoutes.patientAppointments,
               ),
               QuickActionModel(
                 title: 'السجل الطبي',
@@ -39,16 +39,6 @@ class PatientDashboardCubit extends Cubit<PatientDashboardState> {
                 title: 'التحاليل',
                 icon: Icons.science_rounded,
                 route: AppRoutes.patientLaboratory,
-              ),
-              QuickActionModel(
-                title: 'الاستشارات',
-                icon: Icons.forum_rounded,
-                route: AppRoutes.patientConsultations,
-              ),
-              QuickActionModel(
-                title: 'الإشعارات',
-                icon: Icons.notifications_rounded,
-                route: AppRoutes.patientNotifications,
               ),
             ],
             upcomingAppointment: AppointmentModel(
